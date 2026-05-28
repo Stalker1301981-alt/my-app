@@ -39,13 +39,13 @@ pipeline {
 
         stage('Commit & Push to Git') {
             steps {
-                withCredentials([string(credentialsId: 'github-token', variable: 'GIT_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'github-token', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                     sh """
                         git config user.name 'Jenkins CI'
                         git config user.email 'jenkins@my-app.local'
                         git add ${K8S_DEPLOY}
                         git commit -m 'Update image to build-${BUILD_NUMBER}'
-                        git push https://Stalker1301981-alt:\${GIT_TOKEN}@github.com/Stalker1301981-alt/my-app.git HEAD:main
+                        git push https://\${GIT_USER}:\${GIT_PASS}@github.com/Stalker1301981-alt/my-app.git HEAD:main
                     """
                 }
             }
