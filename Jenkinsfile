@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER = '/tmp/docker/docker'
         IMAGE = "art201090/my-app:build-${BUILD_NUMBER}"
-        K8S_DEPLOY = 'k8s/deployment.yaml'
+        K8S_DEPLOY = 'helm/my-app/values.yaml'
     }
 
     stages {
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Update manifest') {
             steps {
-                sh "sed -i 's|image: art201090/my-app:.*|image: ${IMAGE}|' ${K8S_DEPLOY}"
+                sh "sed -i 's|tag:.*|tag: build-${BUILD_NUMBER}|' ${K8S_DEPLOY}"
             }
         }
 
