@@ -1,0 +1,25 @@
+replicaCount: 2
+
+autoscaling:
+  enabled: false
+
+serviceAccount:
+  create: false
+
+image:
+  repository: art201090/my-app
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: ""
+  hosts:
+    - host: my-app.local
+      paths:
+        - path: /
+          pathType: Prefix
