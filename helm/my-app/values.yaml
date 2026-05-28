@@ -8,7 +8,7 @@ serviceAccount:
 
 image:
   repository: art201090/my-app
-  tag: v1
+  tag: build-6
   pullPolicy: IfNotPresent
 
 service:
