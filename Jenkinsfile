@@ -21,7 +21,9 @@ pipeline {
             steps {
                 sh '''
                     /tmp/docker/docker rm -f test-app 2>/dev/null || true
-                    /tmp/docker/docker run --rm -d -p 8080:8080 --name test-app -v $PWD:/app python:3.11-alpine python -m http.server 8080 -d /app/app
+                    /tmp/docker/docker run --rm -d -p 8080:8080 --name test-app python:3.11-alpine sleep infinity
+                    /tmp/docker/docker cp app test-app:/app
+                    /tmp/docker/docker exec -d test-app python -m http.server 8080 -d /app/app
                     sleep 3
                     /tmp/docker/docker exec test-app python -c "import urllib.request; print(urllib.request.urlopen('http://localhost:8080/index.html').read().decode())" | grep -q "Version"
                     /tmp/docker/docker stop test-app
